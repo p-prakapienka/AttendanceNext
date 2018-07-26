@@ -39,7 +39,9 @@ public class LdapSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
+        auth
+                .authenticationProvider(authenticationProvider())
+                .eraseCredentials(false);
     }
 
     private LdapAuthenticationProvider authenticationProvider() {
