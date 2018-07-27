@@ -1,11 +1,11 @@
-package com.gpsolutions.attendance.client.dto;
+package com.gpsolutions.attendance.next.model;
 
 import java.io.Serializable;
 
 public enum Floor implements Serializable {
 
     FLOOR_1("Floor 1"),
-    FLOOR_2("Floor_2"),
+    FLOOR_2("Floor 2"),
     FLOOR_3("Floor 3");
 
     private String value;
