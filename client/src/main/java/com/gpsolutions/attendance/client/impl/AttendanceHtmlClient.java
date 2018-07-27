@@ -16,7 +16,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.format.DateTimeFormatter;
 
-public class AttendanceClientImpl implements AttendanceClient {
+public class AttendanceHtmlClient implements AttendanceClient {
 
     private static final String DATE_KEY = "calendar";
     private static final String USER_KEY = "user";

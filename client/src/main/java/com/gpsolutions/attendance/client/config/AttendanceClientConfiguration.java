@@ -1,7 +1,7 @@
 package com.gpsolutions.attendance.client.config;
 
 import com.gpsolutions.attendance.client.AttendanceClient;
-import com.gpsolutions.attendance.client.impl.AttendanceClientImpl;
+import com.gpsolutions.attendance.client.impl.AttendanceHtmlClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +18,7 @@ public class AttendanceClientConfiguration {
 
     @Bean
     public AttendanceClient attendanceClient() {
-        return new AttendanceClientImpl();
+        return new AttendanceHtmlClient();
     }
 
     @Bean
