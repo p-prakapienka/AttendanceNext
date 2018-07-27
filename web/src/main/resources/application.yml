@@ -1,0 +1,14 @@
+server:
+  port: 8090
+
+spring:
+  application:
+    name: AttendanceNextService
+
+ldap:
+  serverUrl: ldap://192.168.1.200:389
+  searchBase: ou=Users,dc=gp
+  searchFilter: (uid={0})
+
+attendance:
+  url: http://192.168.1.200/attendance
