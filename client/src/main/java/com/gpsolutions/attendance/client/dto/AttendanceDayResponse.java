@@ -3,12 +3,12 @@ package com.gpsolutions.attendance.client.dto;
 import java.io.Serializable;
 import java.util.List;
 
-public class AttendanceResponse implements Serializable {
+public class AttendanceDayResponse implements Serializable {
 
     private AttendanceRequest request;
     private List<Period> periods;
 
-    public AttendanceResponse() {
+    public AttendanceDayResponse() {
     }
 
     public AttendanceRequest getRequest() {
