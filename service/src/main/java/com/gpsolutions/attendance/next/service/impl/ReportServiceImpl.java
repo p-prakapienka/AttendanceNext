@@ -9,11 +9,14 @@ import com.gpsolutions.attendance.next.service.ReportService;
 import com.gpsolutions.attendance.next.util.AttendanceRequestFactory;
 import com.gpsolutions.attendance.next.util.ReportConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.MonthDay;
 import java.time.Year;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,17 +25,20 @@ import java.util.List;
 public class ReportServiceImpl implements ReportService {
 
     @Autowired
+    @Qualifier("ldapUserDetailsService")
+    private UserDetailsService userService;
+
+    @Autowired
     private AttendanceClient client;
 
     @Override
-    public DailyReport getDailyReport(final User user, final LocalDate date) {
-        //TODO implement logic in user details
-        final AttendanceRequest request = AttendanceRequestFactory.create(date, "prokopen"/*user.getAttendanceName()*/);
+    public DailyReport getDailyReport(final LocalDate date) {
+        final AttendanceRequest request = AttendanceRequestFactory.create(date, getAttendanceName());
         return ReportConverter.convert(client.getDayResponse(request));
     }
 
     @Override
-    public MonthlyReport getMonthlyReport(final User user, final Month month) {
+    public MonthlyReport getMonthlyReport(final Month month) {
         final LocalDate now = LocalDate.now();
         final Year year = Year.now();
 
@@ -42,11 +48,17 @@ public class ReportServiceImpl implements ReportService {
                 break;
             }
             final DailyReport dailyReport = getDailyReport(
-                    user,
                     LocalDate.of(year.getValue(), month, i + 1));
             dailyReports.add(dailyReport);
         }
         return new MonthlyReport(dailyReports);
+    }
+
+    private String getAttendanceName() {
+        final String ldapUid = ((UserDetails)SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal()).getUsername();
+        //TODO load from hibernate cache
+        return ((User)userService.loadUserByUsername(ldapUid)).getAttendanceName();
     }
 
 }

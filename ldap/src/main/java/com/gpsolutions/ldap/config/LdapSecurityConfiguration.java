@@ -1,6 +1,7 @@
 package com.gpsolutions.ldap.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -9,10 +10,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.ldap.authentication.BindAuthenticator;
 import org.springframework.security.ldap.authentication.LdapAuthenticationProvider;
+import org.springframework.security.ldap.authentication.NullLdapAuthoritiesPopulator;
+import org.springframework.security.ldap.authentication.UserDetailsServiceLdapAuthoritiesPopulator;
 import org.springframework.security.ldap.search.FilterBasedLdapUserSearch;
 import org.springframework.security.ldap.search.LdapUserSearch;
+import org.springframework.security.ldap.userdetails.LdapAuthoritiesPopulator;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +32,10 @@ public class LdapSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private BaseLdapPathContextSource contextSource;
+
+    @Autowired(required = false)
+    @Qualifier("ldapUserDetailsService")
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -45,8 +54,7 @@ public class LdapSecurityConfiguration extends WebSecurityConfigurerAdapter {
     }
 
     private LdapAuthenticationProvider authenticationProvider() {
-        //TODO authoritiesPopulator
-        return new LdapAuthenticationProvider(bindAuthenticator());
+        return new LdapAuthenticationProvider(bindAuthenticator(), authoritiesPopulator());
     }
 
     private BindAuthenticator bindAuthenticator() {
@@ -57,6 +65,12 @@ public class LdapSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private LdapUserSearch userSearch() {
         return new FilterBasedLdapUserSearch(searchBase, searchFilter, contextSource);
+    }
+
+    private LdapAuthoritiesPopulator authoritiesPopulator() {
+        return userDetailsService != null
+                ? new UserDetailsServiceLdapAuthoritiesPopulator(userDetailsService)
+                : new NullLdapAuthoritiesPopulator();
     }
 
 }

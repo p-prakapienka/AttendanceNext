@@ -8,6 +8,6 @@ public interface UserService {
 
     List<String> getAttendanceUsernames();
 
-    User updateAttendanceUsername(final User user, final String username);
+    User updateAttendanceName(final User user, final String username);
 
 }

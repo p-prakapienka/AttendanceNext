@@ -19,14 +19,15 @@
             <artifactId>attendance-client</artifactId>
             <version>${parent.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.gpsolutions</groupId>
+            <artifactId>attendance-next-ldap</artifactId>
+            <version>${parent.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
     </dependencies>
 

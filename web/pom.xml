@@ -19,11 +19,6 @@
             <artifactId>attendance-next-service</artifactId>
             <version>${parent.version}</version>
         </dependency>
-        <dependency>
-            <groupId>com.gpsolutions</groupId>
-            <artifactId>attendance-next-ldap</artifactId>
-            <version>${parent.version}</version>
-        </dependency>
 
         <!-- Spring Boot -->
         <dependency>

@@ -4,13 +4,13 @@ import com.gpsolutions.ldap.LdapPerson;
 import com.gpsolutions.ldap.LdapService;
 import com.gpsolutions.ldap.function.LdapPersonFilter;
 import com.gpsolutions.ldap.function.LdapPersonMapper;
-import com.gpsolutions.ldap.function.LdapPersonMerger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.ldap.NameNotFoundException;
 import org.springframework.ldap.core.DirContextOperations;
 import org.springframework.ldap.core.LdapTemplate;
 import org.springframework.ldap.core.support.AbstractContextMapper;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +18,7 @@ import java.util.stream.Collectors;
 
 import static org.springframework.ldap.query.LdapQueryBuilder.query;
 
+@Service
 public class LdapServiceImpl<T> implements LdapService<T> {
 
     private static final LdapContextMapper LDAP_MAPPER = new LdapContextMapper();
@@ -44,7 +45,7 @@ public class LdapServiceImpl<T> implements LdapService<T> {
     public T getByUid(String uid, LdapPersonMapper<T> mapper) {
         return mapper.map(
                         getByUid(uid).orElseThrow(() ->
-                                new NameNotFoundException(String.format("Uid %s not found", uid)))
+                                new UsernameNotFoundException(String.format("Uid %s not found", uid)))
         );
     }
 
