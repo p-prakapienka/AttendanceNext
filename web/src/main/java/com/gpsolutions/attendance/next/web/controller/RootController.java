@@ -1,35 +1,23 @@
 package com.gpsolutions.attendance.next.web.controller;
 
-import com.gpsolutions.attendance.client.AttendanceClient;
-import com.gpsolutions.attendance.client.dto.AttendanceRequest;
-import com.gpsolutions.attendance.client.dto.AttendanceDayResponse;
-import com.gpsolutions.attendance.client.dto.AttendanceUserListResponse;
+import com.gpsolutions.attendance.next.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class RootController {
 
     @Autowired
-    private AttendanceClient client;
-
-    @GetMapping("day")
-    @ResponseBody
-    public AttendanceDayResponse day() {
-        return client.getDayResponse(new AttendanceRequest(){{
-            setUsername("prokopen");
-            setDate(LocalDate.now());
-        }});
-    }
+    private UserService userService;
 
     @GetMapping("users")
     @ResponseBody
-    public AttendanceUserListResponse users() {
-        return client.getUsers();
+    public List<String> users() {
+        return userService.getAttendanceUsernames();
     }
 
 }

@@ -7,7 +7,7 @@ public class Period implements Serializable {
 
     private LocalTime timeIn;
     private LocalTime timeOut;
-    private Floor floor;
+    private String floor;
 
     public Period() {
     }
@@ -28,11 +28,11 @@ public class Period implements Serializable {
         this.timeOut = timeOut;
     }
 
-    public Floor getFloor() {
+    public String getFloor() {
         return floor;
     }
 
-    public void setFloor(Floor floor) {
+    public void setFloor(String floor) {
         this.floor = floor;
     }
 }

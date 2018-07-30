@@ -48,7 +48,7 @@ public class AttendanceResponseMessageConverter {
                     Period period = new Period();
                     period.setTimeIn(LocalTime.parse(e.child(1).text()));
                     period.setTimeOut(LocalTime.parse(e.child(2).text()));
-                    period.setFloor(Floor.fromValue(e.child(4).text()));
+                    period.setFloor(e.child(4).text());
                     return period;
                 })
                 .collect(Collectors.toList());
