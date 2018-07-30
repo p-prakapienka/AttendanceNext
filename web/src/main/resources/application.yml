@@ -11,4 +11,4 @@ ldap:
   searchFilter: (uid={0})
 
 attendance:
-  url: http://192.168.1.200/attendance
+  url: https://spirit.generation-p.com/attendance
