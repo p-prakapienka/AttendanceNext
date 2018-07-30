@@ -49,7 +49,10 @@ public class ResponseMapperFactory {
                     .map(d -> d.minus(workDay))
                     .reduce(Duration::plus)
                     .orElse(Duration.ZERO);
-            return new BaseMonthResponse(days, DateTimeUtil.durationToString(difference));
+            return new BaseMonthResponse(
+                    days,
+                    DateTimeUtil.durationToString(difference),
+                    DateTimeUtil.durationToString(total));
         };
     }
 

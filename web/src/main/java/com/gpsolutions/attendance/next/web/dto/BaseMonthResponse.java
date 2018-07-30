@@ -6,10 +6,12 @@ public class BaseMonthResponse implements MonthResponse {
 
     private final List<DayResponse> days;
     private final String difference;
+    private final String total;
 
-    public BaseMonthResponse(List<DayResponse> days, String difference) {
+    public BaseMonthResponse(List<DayResponse> days, String difference, String total) {
         this.days = days;
         this.difference = difference;
+        this.total = total;
     }
 
     public List<DayResponse> getDays() {
@@ -18,5 +20,9 @@ public class BaseMonthResponse implements MonthResponse {
 
     public String getDifference() {
         return difference;
+    }
+
+    public String getTotal() {
+        return total;
     }
 }
