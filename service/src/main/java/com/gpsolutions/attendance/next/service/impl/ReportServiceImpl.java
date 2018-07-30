@@ -8,6 +8,8 @@ import com.gpsolutions.attendance.next.model.User;
 import com.gpsolutions.attendance.next.service.ReportService;
 import com.gpsolutions.attendance.next.util.AttendanceRequestFactory;
 import com.gpsolutions.attendance.next.util.ReportConverter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -23,6 +25,8 @@ import java.util.List;
 
 @Service
 public class ReportServiceImpl implements ReportService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReportService.class);
 
     @Autowired
     @Qualifier("ldapUserDetailsService")
@@ -49,6 +53,11 @@ public class ReportServiceImpl implements ReportService {
             }
             final DailyReport dailyReport = getDailyReport(
                     LocalDate.of(year.getValue(), month, i + 1));
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                LOGGER.warn("Thread interrupted");
+            }
             dailyReports.add(dailyReport);
         }
         return new MonthlyReport(dailyReports);
