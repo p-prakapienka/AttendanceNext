@@ -10,6 +10,8 @@ class App extends Component {
             dayReport: {}
         };
 
+        this.interval = null;
+
         this.fetchDayReport = this.fetchDayReport.bind(this);
     }
 
@@ -25,6 +27,11 @@ class App extends Component {
 
     componentDidMount() {
         this.fetchDayReport();
+        this.interval = setInterval(this.fetchDayReport, 60000);
+    }
+
+    componentWillMount() {
+        clearInterval(this.interval);
     }
 
     render() {
