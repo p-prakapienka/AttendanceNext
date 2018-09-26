@@ -19,7 +19,7 @@ export class MainContainer extends Component {
     }
 
     fetchDayReport() {
-        fetch('/api/report/day', {
+        fetch('api/report/day', {
             credentials: "same-origin"
         }).then(response => {
             return response.json();
@@ -29,7 +29,7 @@ export class MainContainer extends Component {
     }
 
     fetchMonthReport() {
-        fetch('/api/report/month', {
+        fetch('api/report/month', {
             credentials: 'same-origin'
         }).then(response => {
             return response.json();
