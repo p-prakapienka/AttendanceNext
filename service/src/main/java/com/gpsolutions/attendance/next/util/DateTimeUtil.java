@@ -1,4 +1,4 @@
-package com.gpsolutions.attendance.next.web.util;
+package com.gpsolutions.attendance.next.util;
 
 import java.time.DayOfWeek;
 import java.time.Duration;

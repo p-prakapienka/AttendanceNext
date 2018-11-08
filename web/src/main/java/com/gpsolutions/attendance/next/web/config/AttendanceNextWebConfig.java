@@ -10,13 +10,18 @@ import org.springframework.context.annotation.Configuration;
 public class AttendanceNextWebConfig {
 
     @Bean
+    public ResponseMapperFactory responseMapperFactory() {
+        return new ResponseMapperFactory();
+    }
+
+    @Bean
     public DayResponseMapper dayResponseMapper() {
-        return ResponseMapperFactory.baseDayResponseMapper();
+        return responseMapperFactory().baseDayResponseMapper();
     }
 
     @Bean
     public MonthResponseMapper monthResponseMapper() {
-        return ResponseMapperFactory.baseMonthResponseMapper();
+        return responseMapperFactory().baseMonthResponseMapper();
     }
 
 }
