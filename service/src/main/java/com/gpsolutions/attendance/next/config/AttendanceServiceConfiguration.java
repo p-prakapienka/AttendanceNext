@@ -8,9 +8,6 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableGpSecurity
 @AttendanceClientConfig
-@ComponentScan(basePackages = {
-        "com.gpsolutions.attendance.next.service.**",
-        "com.gpsolutions.attendance.next.repository.*"
-})
+@ComponentScan("com.gpsolutions.attendance.next")
 public class AttendanceServiceConfiguration {
 }
