@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.gpsolutions</groupId>
         <artifactId>attendance-next-parent</artifactId>
-        <version>0.0.3</version>
+        <version>0.0.4</version>
     </parent>
 
     <artifactId>attendance-next-web</artifactId>
@@ -36,5 +36,58 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+
+            <id>local-deployment</id>
+
+            <build>
+                <finalName>attendance</finalName>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <id>npm-build</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <executable>npm</executable>
+                                    <workingDirectory>../react-client</workingDirectory>
+                                    <arguments>
+                                        <argument>run</argument>
+                                        <argument>build</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <outputDirectory>d:\soft\apache-tomcat-8.0.47\webapps</outputDirectory>
+                            <webResources>
+                                <resource>
+                                    <directory>../react-client/build</directory>
+                                    <targetPath>WEB-INF/classes/static</targetPath>
+                                    <includes>
+                                        <include>**/*</include>
+                                    </includes>
+                                </resource>
+                            </webResources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+
+        </profile>
+    </profiles>
 
 </project>
