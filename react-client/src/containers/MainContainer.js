@@ -41,7 +41,10 @@ export class MainContainer extends Component {
     componentDidMount() {
         this.fetchDayReport();
         this.fetchMonthReport();
-        this.interval = setInterval(this.fetchDayReport, 60000);
+        this.interval = setInterval(() => {
+            this.fetchDayReport();
+            this.fetchMonthReport();
+        }, 60000);
     }
 
     componentWillMount() {
