@@ -1,6 +1,7 @@
 package com.gpsolutions.attendance.client.config;
 
 import com.gpsolutions.attendance.client.AttendanceClient;
+import com.gpsolutions.attendance.client.enumeration.Mode;
 import com.gpsolutions.attendance.client.impl.AttendanceHtmlClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -16,6 +17,12 @@ public class AttendanceClientConfiguration {
     @Value("${attendance.url}")
     private String rootUri;
 
+    @Value("${attendance.client.mode:LOCAL}")
+    private String mode;
+
+    @Value("${attendance.client.retry.count:3}")
+    private Integer retryCount;
+
     @Bean
     public AttendanceClient attendanceClient() {
         return new AttendanceHtmlClient();
@@ -30,6 +37,15 @@ public class AttendanceClientConfiguration {
                         new FormHttpMessageConverter(),
                         new StringHttpMessageConverter())
                 .build();
+    }
+
+    @Bean
+    public DynamicClientConfiguration dynamicClientConfiguration() {
+        return new DynamicClientConfiguration(
+                Mode.REMOTE.name().equals(mode)
+                        ? Mode.REMOTE
+                        : Mode.LOCAL,
+                retryCount);
     }
 
 }

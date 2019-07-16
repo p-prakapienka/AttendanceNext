@@ -1,18 +1,18 @@
 package com.gpsolutions.attendance.client.impl;
 
 import com.gpsolutions.attendance.client.AttendanceClient;
+import com.gpsolutions.attendance.client.config.DynamicClientConfiguration;
 import com.gpsolutions.attendance.client.dto.AttendanceRequest;
 import com.gpsolutions.attendance.client.dto.AttendanceDayResponse;
 import com.gpsolutions.attendance.client.dto.AttendanceUserListResponse;
-import com.gpsolutions.attendance.client.util.AttendanceResponseMessageConverter;
+import com.gpsolutions.attendance.client.enumeration.Mode;
+import com.gpsolutions.attendance.client.converter.AttendanceResponseMessageConverter;
+import com.gpsolutions.attendance.client.util.AuthUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.time.format.DateTimeFormatter;
 
@@ -23,15 +23,16 @@ public class AttendanceHtmlClient implements AttendanceClient {
 
     private static final String AUTH_HEADER = "Authorization";
 
-    @Value("${attendance.url}")
-    private String url;
-
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private DynamicClientConfiguration configuration;
+
     @Override
     public AttendanceDayResponse getDayResponse(final AttendanceRequest request) {
-        final ResponseEntity<String> response = restTemplate.postForEntity(url, createEntity(request), String.class);
+        final ResponseEntity<String> response = restTemplate
+                .postForEntity(configuration.getUrl(), createEntity(request), String.class);
 
         return AttendanceResponseMessageConverter.convert(request, response.getBody());
     }
@@ -39,7 +40,7 @@ public class AttendanceHtmlClient implements AttendanceClient {
     @Override
     public AttendanceUserListResponse getUsers() {
         final ResponseEntity<String> response = restTemplate
-                .exchange(url, HttpMethod.GET, createEntity(), String.class);
+                .exchange(configuration.getUrl(), HttpMethod.GET, createEntity(), String.class);
 
         return AttendanceResponseMessageConverter.convert(response.getBody());
     }
@@ -60,8 +61,9 @@ public class AttendanceHtmlClient implements AttendanceClient {
     }
 
     private HttpHeaders createHeaders(){
-        final String authHeader = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
-                .getRequest().getHeader(AUTH_HEADER);
+        final String authHeader = configuration.getMode() == Mode.LOCAL
+                ? AuthUtil.fromRequestHeader(AUTH_HEADER)
+                : AuthUtil.basic("prokopenko", "pieradus1m");
         return new HttpHeaders() {{
             set(AUTH_HEADER, authHeader);
             setContentType(MediaType.APPLICATION_FORM_URLENCODED);
