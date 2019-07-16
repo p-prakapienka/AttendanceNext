@@ -7,13 +7,14 @@ import javax.annotation.PostConstruct;
 
 public class DynamicClientConfiguration {
 
-    @Value("${attendance.url}")
     private String url;
-
     private Mode mode;
     private Integer retryCount;
 
-    public DynamicClientConfiguration(Mode mode, Integer retryCount) {
+    public DynamicClientConfiguration(final String url,
+                                      final Mode mode,
+                                      final Integer retryCount) {
+        this.url = url;
         this.mode = mode;
         this.retryCount = retryCount;
     }

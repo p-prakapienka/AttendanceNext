@@ -42,6 +42,7 @@ public class AttendanceClientConfiguration {
     @Bean
     public DynamicClientConfiguration dynamicClientConfiguration() {
         return new DynamicClientConfiguration(
+                rootUri,
                 Mode.REMOTE.name().equals(mode)
                         ? Mode.REMOTE
                         : Mode.LOCAL,
