@@ -6,7 +6,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableGpSecurity
+//@EnableGpSecurity
 @AttendanceClientConfig
 @ComponentScan("com.gpsolutions.attendance.next")
 public class AttendanceServiceConfiguration {

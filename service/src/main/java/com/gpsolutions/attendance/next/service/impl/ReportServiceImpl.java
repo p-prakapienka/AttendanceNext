@@ -29,7 +29,7 @@ public class ReportServiceImpl implements ReportService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReportService.class);
 
-    @Autowired
+    //@Autowired
     @Qualifier("ldapUserDetailsService")
     private UserDetailsService userService;
 
@@ -76,7 +76,8 @@ public class ReportServiceImpl implements ReportService {
     private String getAttendanceName() {
         final String ldapUid = getUserUid();
         //TODO load from hibernate cache
-        return ((User)userService.loadUserByUsername(ldapUid)).getAttendanceName();
+        return "prokopen";
+        //return ((User)userService.loadUserByUsername(ldapUid)).getAttendanceName();
     }
 
     private String getUserUid() {

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service("ldapUserDetailsService")
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService/*, UserDetailsService*/ {
 
     private final LdapPersonMapper<User> mapper = (lp) -> {
         final User user = new User();
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Autowired
     private AttendanceClient attendanceClient;
 
-    @Autowired
+    //@Autowired
     private LdapService<User> ldapService;
 
     @Override
@@ -41,12 +41,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return user;
     }
 
-    @Override
-    public UserDetails loadUserByUsername(final String ldapUid) throws UsernameNotFoundException {
-        final User user = ldapService.getByUid(ldapUid, mapper);
-        findAndSetAttendanceName(user);
-        return user;
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(final String ldapUid) throws UsernameNotFoundException {
+//        final User user = ldapService.getByUid(ldapUid, mapper);
+//        findAndSetAttendanceName(user);
+//        return user;
+//    }
 
     private void findAndSetAttendanceName(final User user) {
         Optional<String> name = getAttendanceUsernames()
